@@ -34,6 +34,7 @@ export const MiddlewareActions = {
 
     try {
       await axios.post('http://localhost:3000/tasks', task);
+      console.log(1);
       dispatch(MiddlewareActions.fetchTasks());
     } catch (error) {
       console.log(error);
