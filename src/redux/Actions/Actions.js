@@ -16,13 +16,12 @@ export const taskActions = {
 
 export const MiddlewareActions = {
 
-  fetchTasks: () => (dispatch) => {
+  fetchTasks: () => async (dispatch) => {
     dispatch(taskActions.setLoading(true));
 
     try {
-      axios.get('http://localhost:3000/tasks').then((response) => {
-        dispatch(taskActions.setTasks(response.data));
-      });
+      const response = await axios.get('http://localhost:3000/tasks');
+      await dispatch(taskActions.setTasks(response.data));
     } catch (error) {
       console.log(error);
     } finally {
@@ -30,12 +29,12 @@ export const MiddlewareActions = {
     }
   },
 
-  postTask: (task) => (dispatch) => {
+  postTask: (task) => async (dispatch) => {
     dispatch(taskActions.setLoading(true));
 
     try {
-      axios.post('http://localhost:3000/tasks', task)
-        .then(() => dispatch(MiddlewareActions.fetchTasks()));
+      await axios.post('http://localhost:3000/tasks', task);
+      dispatch(MiddlewareActions.fetchTasks());
     } catch (error) {
       console.log(error);
     } finally {
@@ -43,11 +42,11 @@ export const MiddlewareActions = {
     }
   },
 
-  removeTask: (task) => (dispatch) => {
+  removeTask: (task) => async (dispatch) => {
     dispatch(taskActions.setLoading(true));
     try {
-      axios.delete(`http://localhost:3000/tasks/${task.id}`)
-        .then(() => dispatch(MiddlewareActions.fetchTasks()));
+      await axios.delete(`http://localhost:3000/tasks/${task.id}`);
+      dispatch(MiddlewareActions.fetchTasks());
     } catch (error) {
       console.log(error);
     } finally {
@@ -55,19 +54,19 @@ export const MiddlewareActions = {
     }
   },
 
-  completedTask: (task) => (dispatch) => {
+  completedTask: (task) => async (dispatch) => {
     try {
-      axios.patch(`http://localhost:3000/tasks/${task.id}`, { completed: !task.completed })
-        .then(() => dispatch(taskActions.setCompleted(task)));
+      await axios.patch(`http://localhost:3000/tasks/${task.id}`, { completed: !task.completed });
+      dispatch(taskActions.setCompleted(task));
     } catch (error) {
       console.log(error);
     }
   },
 
-  editTask: (task) => (dispatch) => {
+  editTask: (task) => async (dispatch) => {
     try {
-      axios.patch(`http://localhost:3000/tasks/${task.id}`, { text: task.newText })
-        .then(() => dispatch(MiddlewareActions.fetchTasks()));
+      await axios.patch(`http://localhost:3000/tasks/${task.id}`, { text: task.newText });
+      dispatch(MiddlewareActions.fetchTasks());
     } catch (error) {
       console.log(error);
     }
