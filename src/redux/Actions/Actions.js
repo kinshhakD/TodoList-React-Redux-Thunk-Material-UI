@@ -24,6 +24,7 @@ export const MiddlewareActions = {
       await dispatch(taskActions.setTasks(response.data));
     } catch (error) {
       console.log(error);
+      console.log(error);
     } finally {
       dispatch(taskActions.setLoading(false));
     }
