@@ -1,6 +1,7 @@
 import { Box } from '@material-ui/core';
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import PropTypes from 'prop-types';
 import { MiddlewareActions } from '../../redux/Actions/Actions';
 import Task from './Task';
 
@@ -66,6 +67,19 @@ const Tasks = ({
       }
     </Box>
   );
+};
+
+Tasks.defaultProps = {
+  tasksAll: true,
+  tasksCompleted: false,
+  tasksNotCompleted: false,
+};
+
+Tasks.propTypes = {
+  tasksAll: PropTypes.bool,
+  tasksCompleted: PropTypes.bool,
+  tasksNotCompleted: PropTypes.bool,
+
 };
 
 export default Tasks;

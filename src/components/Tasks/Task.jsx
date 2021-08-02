@@ -6,8 +6,8 @@ import DeleteIcon from '@material-ui/icons/Delete';
 import EditIcon from '@material-ui/icons/Edit';
 import DoneIcon from '@material-ui/icons/Done';
 import { useDispatch } from 'react-redux';
+import PropTypes from 'prop-types';
 import { MiddlewareActions } from '../../redux/Actions/Actions';
-import ButtonTask from '../ButtonsTasks/ButtonTask';
 
 const Task = ({
   text, onRemove, onComplete, completed, id,
@@ -34,13 +34,14 @@ const Task = ({
 
     <Box mb={10} fontSize={24} display="flex" justifyContent="space-between">
       {
-          editTask ? <TextField value={inputEditTask} onChange={handleChange} fullWidth className="input__edit" /> : (
-            <Typography data-testid="title-task" variant="h5" className={completed ? 'completed' : null}>
-              {text}
-            </Typography>
-          )
-        }
-
+          editTask
+            ? <TextField value={inputEditTask} onChange={handleChange} fullWidth className="input__edit" />
+            : (
+              <Typography data-testid="title-task" variant="h5" className={completed ? 'completed' : null}>
+                {text}
+              </Typography>
+            )
+      }
       <Box display="flex">
         <Button onClick={editTask
           ? () => postEditTask({ id, newText: inputEditTask }) : onComplete}
@@ -58,4 +59,22 @@ const Task = ({
 
   );
 };
+
+Task.defaultProps = {
+  text: '',
+  onRemove: () => {},
+  onComplete: () => {},
+  completed: false,
+  id: undefined,
+};
+
+Task.propTypes = {
+  text: PropTypes.string,
+  onRemove: PropTypes.func,
+  onComplete: PropTypes.func,
+  completed: PropTypes.bool,
+  id: PropTypes.number,
+
+};
+
 export default Task;

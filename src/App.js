@@ -1,11 +1,11 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   Container,
 } from '@material-ui/core';
 import './App.css';
 import Tasks from './components/Tasks/Tasks';
 import FormTask from './components/FormTask/FormTask';
-import ButtonsTasks from './components/ButtonsTasks/ButtonsTasks';
+import CategoryTasks from './components/ButtonsTasks/CategoryTasks';
 
 function App() {
   const [allTasks, setAllTasks] = useState(true);
@@ -36,7 +36,7 @@ function App() {
     <div className="App">
       <Container>
         <FormTask />
-        <ButtonsTasks
+        <CategoryTasks
           tasksAll={showAllTasks}
           tasksCompleted={showCompletedTasks}
           tasksNotCompleted={showNotCompletedTasks}

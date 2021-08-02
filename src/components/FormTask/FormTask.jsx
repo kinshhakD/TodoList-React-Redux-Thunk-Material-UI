@@ -1,13 +1,20 @@
 import React, { useState } from 'react';
 import {
-  Box, Button, FormControl, TextField,
+  Box, Button, createStyles, FormControl, makeStyles, TextField, withStyles,
 } from '@material-ui/core';
 import DoneIcon from '@material-ui/icons/Done';
 import CloseIcon from '@material-ui/icons/Close';
 import { useDispatch } from 'react-redux';
 import { MiddlewareActions } from '../../redux/Actions/Actions';
 
+const useStyles = makeStyles(() => createStyles({
+  form: {
+    flexDirection: 'row',
+  },
+}));
+
 const FormTask = () => {
+  const classes = useStyles();
   const [taskInput, setTaskInput] = useState('');
 
   const dispatch = useDispatch();
@@ -32,9 +39,9 @@ const FormTask = () => {
 
   return (
     <Box mb={20}>
-      <FormControl fullWidth>
+      <FormControl fullWidth className={classes.form}>
         <TextField data-testid="input-new" id="standard-basic" label="Task" fullWidth fontSize={24} onChange={handleChange} value={taskInput} role="textbox" />
-        <Box>
+        <Box display="flex">
           <Button onClick={clearInput}>
             <CloseIcon fontSize="large" />
           </Button>
