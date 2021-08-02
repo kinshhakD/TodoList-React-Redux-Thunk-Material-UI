@@ -1,7 +1,16 @@
 import { ActionTypes } from '../Actions/Actions';
 
 const initialState = {
-  tasks: [],
+  tasks: [{
+    id: 1,
+    text: 'Изучить JavaScript',
+    completed: false,
+  },
+  {
+    id: 2,
+    text: 'Изучить паттерны проектирования',
+    completed: false,
+  }],
   loading: false,
 };
 

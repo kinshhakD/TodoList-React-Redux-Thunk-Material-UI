@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
-import { Box, FormControl, TextField } from '@material-ui/core';
+import {
+  Box, Button, FormControl, TextField,
+} from '@material-ui/core';
 import DoneIcon from '@material-ui/icons/Done';
 import CloseIcon from '@material-ui/icons/Close';
 import { useDispatch } from 'react-redux';
@@ -31,10 +33,15 @@ const FormTask = () => {
   return (
     <Box mb={20}>
       <FormControl fullWidth>
-        <TextField id="standard-basic" label="Task" fullWidth fontSize={24} onChange={handleChange} value={taskInput} />
+        <TextField data-testid="input-new" id="standard-basic" label="Task" fullWidth fontSize={24} onChange={handleChange} value={taskInput} role="textbox" />
         <Box>
-          <CloseIcon cursor="pointer" fontSize="large" onClick={clearInput} />
-          <DoneIcon cursor="pointer" fontSize="large" onClick={postTask} />
+          <Button onClick={clearInput}>
+            <CloseIcon fontSize="large" />
+          </Button>
+          <Button onClick={postTask}>
+            <DoneIcon cursor="pointer" fontSize="large" />
+          </Button>
+
         </Box>
       </FormControl>
     </Box>

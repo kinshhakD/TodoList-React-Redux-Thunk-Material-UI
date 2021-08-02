@@ -1,10 +1,13 @@
 import React, { useState } from 'react';
-import { Box, TextField, Typography } from '@material-ui/core';
+import {
+  Box, Button, TextField, Typography,
+} from '@material-ui/core';
 import DeleteIcon from '@material-ui/icons/Delete';
 import EditIcon from '@material-ui/icons/Edit';
 import DoneIcon from '@material-ui/icons/Done';
 import { useDispatch } from 'react-redux';
 import { MiddlewareActions } from '../../redux/Actions/Actions';
+import ButtonTask from '../ButtonsTasks/ButtonTask';
 
 const Task = ({
   text, onRemove, onComplete, completed, id,
@@ -32,16 +35,24 @@ const Task = ({
     <Box mb={10} fontSize={24} display="flex" justifyContent="space-between">
       {
           editTask ? <TextField value={inputEditTask} onChange={handleChange} fullWidth className="input__edit" /> : (
-            <Typography variant="h5" className={completed ? 'completed' : null}>
-              { text }
+            <Typography data-testid="title-task" variant="h5" className={completed ? 'completed' : null}>
+              {text}
             </Typography>
           )
         }
 
       <Box display="flex">
-        <DoneIcon cursor="pointer" className="icon__task" onClick={editTask ? () => postEditTask({ id, newText: inputEditTask }) : onComplete} />
-        <EditIcon cursor="pointer" className="icon__task" onClick={onEditTask} />
-        <DeleteIcon cursor="pointer" onClick={onRemove} />
+        <Button onClick={editTask
+          ? () => postEditTask({ id, newText: inputEditTask }) : onComplete}
+        >
+          <DoneIcon cursor="pointer" className="icon__task" />
+        </Button>
+        <Button onClick={onEditTask}>
+          <EditIcon cursor="pointer" className="icon__task" />
+        </Button>
+        <Button onClick={onRemove}>
+          <DeleteIcon cursor="pointer" />
+        </Button>
       </Box>
     </Box>
 

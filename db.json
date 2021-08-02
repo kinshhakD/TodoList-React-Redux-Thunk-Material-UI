@@ -1,34 +1,14 @@
 {
   "tasks": [
     {
-      "id": 1,
-      "text": "Изучить JavaScript",
-      "completed": false
+      "text": "1",
+      "completed": false,
+      "id": 1
     },
     {
-      "id": 2,
-      "text": "Изучить паттерны проектирования",
-      "completed": false
-    },
-    {
-      "id": 3,
-      "text": "ReactJS Hooks (useState, useReducer, useEffect и т.д.)",
-      "completed": false
-    },
-    {
-      "id": 4,
-      "text": "Redux (redux-observable, redux-saga)",
-      "completed": false
-    },
-    {
-      "text": "Бред питтt",
-      "completed": true,
-      "id": 5
-    },
-    {
-      "text": "Джони депп",
-      "completed": true,
-      "id": 6
+      "text": "2",
+      "completed": false,
+      "id": 2
     }
   ]
 }

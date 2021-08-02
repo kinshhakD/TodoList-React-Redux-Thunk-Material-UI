@@ -4,7 +4,9 @@ import { useDispatch, useSelector } from 'react-redux';
 import { MiddlewareActions } from '../../redux/Actions/Actions';
 import Task from './Task';
 
-const Tasks = ({ tasksAll, tasksCompleted, tasksNotCompleted }) => {
+const Tasks = ({
+  tasksAll, tasksCompleted, tasksNotCompleted,
+}) => {
   const tasks = useSelector((store) => store.tasks.tasks);
 
   const listCompletedTasks = tasks.filter((task) => task.completed);
