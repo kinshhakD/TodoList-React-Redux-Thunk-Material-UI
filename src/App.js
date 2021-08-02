@@ -5,7 +5,7 @@ import {
 import './App.css';
 import Tasks from './components/Tasks/Tasks';
 import FormTask from './components/FormTask/FormTask';
-import CategoryTasks from './components/ButtonsTasks/CategoryTasks';
+import CategoryTasks from './components/CategoryLists/CategoryTasks';
 
 function App() {
   const [allTasks, setAllTasks] = useState(true);

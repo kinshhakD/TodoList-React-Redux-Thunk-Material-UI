@@ -15,15 +15,12 @@ export const taskActions = {
 };
 
 export const MiddlewareActions = {
-
   fetchTasks: () => async (dispatch) => {
     dispatch(taskActions.setLoading(true));
-
     try {
       const response = await axios.get('http://localhost:3000/tasks');
-      await dispatch(taskActions.setTasks(response.data));
+      dispatch(taskActions.setTasks(response.data));
     } catch (error) {
-      console.log(error);
       console.log(error);
     } finally {
       dispatch(taskActions.setLoading(false));
@@ -32,10 +29,8 @@ export const MiddlewareActions = {
 
   postTask: (task) => async (dispatch) => {
     dispatch(taskActions.setLoading(true));
-
     try {
       await axios.post('http://localhost:3000/tasks', task);
-      console.log(1);
       dispatch(MiddlewareActions.fetchTasks());
     } catch (error) {
       console.log(error);
