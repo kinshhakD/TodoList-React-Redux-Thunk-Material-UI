@@ -15,57 +15,57 @@ export const taskActions = {
 };
 
 export const MiddlewareActions = {
-  fetchTasks: () => async (dispatch) => {
-    dispatch(taskActions.setLoading(true));
-    try {
-      const response = await axios.get('http://localhost:3000/tasks');
-      dispatch(taskActions.setTasks(response.data));
-    } catch (error) {
-      console.log(error);
-    } finally {
-      dispatch(taskActions.setLoading(false));
-    }
-  },
+  // fetchTasks: () => async (dispatch) => {
+  //   dispatch(taskActions.setLoading(true));
+  //   try {
+  //     const response = await axios.get('http://localhost:3000/tasks');
+  //     dispatch(taskActions.setTasks(response.data));
+  //   } catch (error) {
+  //     console.log(error);
+  //   } finally {
+  //     dispatch(taskActions.setLoading(false));
+  //   }
+  // },
 
-  postTask: (task) => async (dispatch) => {
-    dispatch(taskActions.setLoading(true));
-    try {
-      await axios.post('http://localhost:3000/tasks', task);
-      dispatch(MiddlewareActions.fetchTasks());
-    } catch (error) {
-      console.log(error);
-    } finally {
-      dispatch(taskActions.setLoading(false));
-    }
-  },
+  // postTask: (task) => async (dispatch) => {
+  //   dispatch(taskActions.setLoading(true));
+  //   try {
+  //     await axios.post('http://localhost:3000/tasks', task);
+  //     dispatch(MiddlewareActions.fetchTasks());
+  //   } catch (error) {
+  //     console.log(error);
+  //   } finally {
+  //     dispatch(taskActions.setLoading(false));
+  //   }
+  // },
 
-  removeTask: (task) => async (dispatch) => {
-    dispatch(taskActions.setLoading(true));
-    try {
-      await axios.delete(`http://localhost:3000/tasks/${task.id}`);
-      dispatch(MiddlewareActions.fetchTasks());
-    } catch (error) {
-      console.log(error);
-    } finally {
-      dispatch(taskActions.setLoading(false));
-    }
-  },
+  // removeTask: (task) => async (dispatch) => {
+  //   dispatch(taskActions.setLoading(true));
+  //   try {
+  //     await axios.delete(`http://localhost:3000/tasks/${task.id}`);
+  //     dispatch(MiddlewareActions.fetchTasks());
+  //   } catch (error) {
+  //     console.log(error);
+  //   } finally {
+  //     dispatch(taskActions.setLoading(false));
+  //   }
+  // },
 
-  completedTask: (task) => async (dispatch) => {
-    try {
-      await axios.patch(`http://localhost:3000/tasks/${task.id}`, { completed: !task.completed });
-      dispatch(taskActions.setCompleted(task));
-    } catch (error) {
-      console.log(error);
-    }
-  },
+  // completedTask: (task) => async (dispatch) => {
+  //   try {
+  //     await axios.patch(`http://localhost:3000/tasks/${task.id}`, { completed: !task.completed });
+  //     dispatch(taskActions.setCompleted(task));
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // },
 
-  editTask: (task) => async (dispatch) => {
-    try {
-      await axios.patch(`http://localhost:3000/tasks/${task.id}`, { text: task.newText });
-      dispatch(MiddlewareActions.fetchTasks());
-    } catch (error) {
-      console.log(error);
-    }
-  },
+  // editTask: (task) => async (dispatch) => {
+  //   try {
+  //     await axios.patch(`http://localhost:3000/tasks/${task.id}`, { text: task.newText });
+  //     dispatch(MiddlewareActions.fetchTasks());
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // },
 };

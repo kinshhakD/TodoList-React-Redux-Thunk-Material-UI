@@ -6,6 +6,8 @@ import DoneIcon from '@material-ui/icons/Done';
 import CloseIcon from '@material-ui/icons/Close';
 import { useDispatch } from 'react-redux';
 import { MiddlewareActions } from '../../redux/Actions/Actions';
+// import { newTask } from '../../reduxToolkit/tasksReducer';
+import { addTask } from '../../reduxToolkit/asyncThunk';
 
 const useStyles = makeStyles(() => createStyles({
   form: {
@@ -32,7 +34,7 @@ const FormTask = () => {
         completed: false,
       };
 
-      dispatch(MiddlewareActions.postTask(taskObj));
+      dispatch(addTask(taskObj));
       setTaskInput('');
     }
   };

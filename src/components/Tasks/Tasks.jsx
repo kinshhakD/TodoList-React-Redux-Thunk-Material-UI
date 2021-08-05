@@ -4,6 +4,10 @@ import { useDispatch, useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import { MiddlewareActions } from '../../redux/Actions/Actions';
 import Task from './Task';
+import {
+  addTask, deleteTask, fetchTasks, isCompletedTask,
+} from '../../reduxToolkit/asyncThunk';
+import { completedTask } from '../../reduxToolkit/tasksReducer';
 
 const Tasks = ({
   tasksAll, tasksCompleted, tasksNotCompleted,
@@ -14,52 +18,56 @@ const Tasks = ({
 
   const listNotCompletedTasks = tasks.filter((task) => !task.completed);
 
+  // console.log(tasks);
+
   const dispatch = useDispatch();
+  const removeTask = (task) => dispatch(deleteTask(task));
+
+  const finishedTask = (task) => dispatch(isCompletedTask(task));
 
   useEffect(() => {
-    dispatch(MiddlewareActions.fetchTasks());
+    dispatch(fetchTasks());
   }, []);
-
-  const removeTask = (task) => {
-    dispatch(MiddlewareActions.removeTask(task));
-  };
-
-  const completedTask = (task) => dispatch(MiddlewareActions.completedTask(task));
 
   return (
     <Box>
       {
         tasksAll
-          && tasks.map((task) => (
-            <Task
-              text={task.text}
-              key={task.text}
-              onRemove={() => removeTask(task)}
-              onComplete={() => completedTask(task)}
-              completed={task.completed}
-              id={task.id}
-            />
-          ))
-      }
-      {
-        tasksCompleted && listCompletedTasks.map((task) => (
+        && tasks.length > 0
+        && tasks.map((task) => (
           <Task
             text={task.text}
-            key={task.text}
+            key={task.id}
             onRemove={() => removeTask(task)}
-            onComplete={() => completedTask(task)}
+            onComplete={() => finishedTask(task)}
             completed={task.completed}
             id={task.id}
           />
         ))
       }
       {
-        tasksNotCompleted && listNotCompletedTasks.map((task) => (
+        tasksCompleted
+        && listCompletedTasks.length > 0
+        && listCompletedTasks.map((task) => (
           <Task
             text={task.text}
-            key={task.text}
+            key={task.id}
             onRemove={() => removeTask(task)}
-            onComplete={() => completedTask(task)}
+            onComplete={() => finishedTask(task)}
+            completed={task.completed}
+            id={task.id}
+          />
+        ))
+      }
+      {
+        tasksNotCompleted
+        && listNotCompletedTasks.length > 0
+        && listNotCompletedTasks.map((task) => (
+          <Task
+            text={task.text}
+            key={task.id}
+            onRemove={() => removeTask(task)}
+            onComplete={() => finishedTask(task)}
             completed={task.completed}
             id={task.id}
           />
