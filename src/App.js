@@ -3,9 +3,11 @@ import {
   Container,
 } from '@material-ui/core';
 import './App.css';
+import { useDispatch } from 'react-redux';
 import Tasks from './components/Tasks/Tasks';
 import FormTask from './components/FormTask/FormTask';
 import CategoryTasks from './components/CategoryLists/CategoryTasks';
+import { MiddlewareActions } from './redux/Actions/Actions';
 
 function App() {
   const [allTasks, setAllTasks] = useState(true);
@@ -13,6 +15,12 @@ function App() {
   const [completedTasks, setCompletedTasks] = useState(false);
 
   const [notCompletedTasks, setNotCompletedTasks] = useState(false);
+
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(MiddlewareActions.fetchTasks());
+  }, [allTasks, completedTasks, notCompletedTasks]);
 
   const showAllTasks = () => {
     setAllTasks(true);

@@ -10,15 +10,11 @@ const Tasks = ({
 }) => {
   const tasks = useSelector((store) => store.tasks.tasks);
 
-  const listCompletedTasks = tasks.filter((task) => task.completed);
+  const completedList = useSelector((store) => store.tasks.completedTasks);
 
-  const listNotCompletedTasks = tasks.filter((task) => !task.completed);
+  const notCompletedList = useSelector((store) => store.tasks.notCompletedTasks);
 
   const dispatch = useDispatch();
-
-  useEffect(() => {
-    dispatch(MiddlewareActions.fetchTasks());
-  }, []);
 
   const removeTask = (task) => {
     dispatch(MiddlewareActions.removeTask(task));
@@ -30,6 +26,7 @@ const Tasks = ({
     <Box>
       {
         tasksAll
+        && tasks.length > 0
           && tasks.map((task) => (
             <Task
               text={task.text}
@@ -42,28 +39,32 @@ const Tasks = ({
           ))
       }
       {
-        tasksCompleted && listCompletedTasks.map((task) => (
-          <Task
-            text={task.text}
-            key={task.text}
-            onRemove={() => removeTask(task)}
-            onComplete={() => completedTask(task)}
-            completed={task.completed}
-            id={task.id}
-          />
-        ))
+        tasksCompleted
+         && completedList.length > 0
+         && completedList.map((task) => (
+           <Task
+             text={task.text}
+             key={task.text}
+             onRemove={() => removeTask(task)}
+             onComplete={() => completedTask(task)}
+             completed={task.completed}
+             id={task.id}
+           />
+         ))
       }
       {
-        tasksNotCompleted && listNotCompletedTasks.map((task) => (
-          <Task
-            text={task.text}
-            key={task.text}
-            onRemove={() => removeTask(task)}
-            onComplete={() => completedTask(task)}
-            completed={task.completed}
-            id={task.id}
-          />
-        ))
+        tasksNotCompleted
+        && notCompletedList.length > 0
+         && notCompletedList.map((task) => (
+           <Task
+             text={task.text}
+             key={task.text}
+             onRemove={() => removeTask(task)}
+             onComplete={() => completedTask(task)}
+             completed={task.completed}
+             id={task.id}
+           />
+         ))
       }
     </Box>
   );

@@ -3,7 +3,9 @@ import axios from 'axios';
 export const ActionTypes = {
   SET_LOADING: 'SET_LOADING',
   SET_TASKS: 'SET_TASKS',
+  SET_COMPLETED_TASKS_LIST: 'SET_COMPLETED_TASKS_LIST',
   SET_COMPLETED_TASK: 'SET_COMPLETED_TASK',
+  SET_NOT_COMPLETED_TASKS_LIST: 'SET_NOT_COMPLETED_TASKS_LIST',
   SET_REMOVE_TASK: 'SET_REMOVE_TASK',
   SET_POST_TASK: 'SET_POST_TASK',
   SET_EDITING_TASK: 'SET_EDITING_TASK',
@@ -14,11 +16,15 @@ export const taskActions = {
 
   setTasks: (tasks) => ({ type: ActionTypes.SET_TASKS, payload: tasks }),
 
+  setCompletedList: (tasks) => ({ type: ActionTypes.SET_COMPLETED_TASKS_LIST, payload: tasks }),
+
   setPostTask: (task) => ({ type: ActionTypes.SET_POST_TASK, payload: task }),
 
   setCompleted: (task) => ({ type: ActionTypes.SET_COMPLETED_TASK, payload: task }),
 
   setRemoveTask: (task) => ({ type: ActionTypes.SET_REMOVE_TASK, payload: task }),
+
+  setNewTextTask: (task) => ({ type: ActionTypes.SET_EDITING_TASK, payload: task }),
 
 };
 
@@ -27,6 +33,7 @@ export const MiddlewareActions = {
     dispatch(taskActions.setLoading(true));
     try {
       const response = await axios.get('http://localhost:3000/tasks');
+      console.log(response.data);
       dispatch(taskActions.setTasks(response.data));
     } catch (error) {
       console.log(error);
@@ -71,7 +78,7 @@ export const MiddlewareActions = {
   editTask: (task) => async (dispatch) => {
     try {
       await axios.patch(`http://localhost:3000/tasks/${task.id}`, { text: task.newText });
-      // dispatch(MiddlewareActions.fetchTasks());
+      dispatch(taskActions.setNewTextTask(task));
     } catch (error) {
       console.log(error);
     }

@@ -22,7 +22,10 @@ export const tasksReducer = (state = initialState, action) => {
       };
     case ActionTypes.SET_TASKS:
       return {
-        ...state, tasks: action.payload,
+        ...state,
+        tasks: action.payload,
+        completedTasks: action.payload.filter((task) => task.completed),
+        notCompletedTasks: action.payload.filter((task) => !task.completed),
       };
     case ActionTypes.SET_POST_TASK:
       return {
@@ -37,6 +40,20 @@ export const tasksReducer = (state = initialState, action) => {
               ...task, completed: !task.completed,
             };
           } return task;
+        }),
+      };
+    }
+    case ActionTypes.SET_EDITING_TASK: {
+      console.log(action);
+      return {
+        ...state,
+        tasks: state.tasks.map((task) => {
+          if (task.id === action.payload.id) {
+            return {
+              ...state, text: action.payload.newText,
+            };
+          }
+          return task;
         }),
       };
     }
