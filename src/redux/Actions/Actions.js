@@ -4,6 +4,9 @@ export const ActionTypes = {
   SET_LOADING: 'SET_LOADING',
   SET_TASKS: 'SET_TASKS',
   SET_COMPLETED_TASK: 'SET_COMPLETED_TASK',
+  SET_REMOVE_TASK: 'SET_REMOVE_TASK',
+  SET_POST_TASK: 'SET_POST_TASK',
+  SET_EDITING_TASK: 'SET_EDITING_TASK',
 };
 
 export const taskActions = {
@@ -11,7 +14,12 @@ export const taskActions = {
 
   setTasks: (tasks) => ({ type: ActionTypes.SET_TASKS, payload: tasks }),
 
+  setPostTask: (task) => ({ type: ActionTypes.SET_POST_TASK, payload: task }),
+
   setCompleted: (task) => ({ type: ActionTypes.SET_COMPLETED_TASK, payload: task }),
+
+  setRemoveTask: (task) => ({ type: ActionTypes.SET_REMOVE_TASK, payload: task }),
+
 };
 
 export const MiddlewareActions = {
@@ -30,8 +38,8 @@ export const MiddlewareActions = {
   postTask: (task) => async (dispatch) => {
     dispatch(taskActions.setLoading(true));
     try {
-      await axios.post('http://localhost:3000/tasks', task);
-      dispatch(MiddlewareActions.fetchTasks());
+      const request = await axios.post('http://localhost:3000/tasks', task);
+      dispatch(taskActions.setPostTask(request.data));
     } catch (error) {
       console.log(error);
     } finally {
@@ -43,7 +51,7 @@ export const MiddlewareActions = {
     dispatch(taskActions.setLoading(true));
     try {
       await axios.delete(`http://localhost:3000/tasks/${task.id}`);
-      dispatch(MiddlewareActions.fetchTasks());
+      dispatch(taskActions.setRemoveTask(task));
     } catch (error) {
       console.log(error);
     } finally {
@@ -63,7 +71,7 @@ export const MiddlewareActions = {
   editTask: (task) => async (dispatch) => {
     try {
       await axios.patch(`http://localhost:3000/tasks/${task.id}`, { text: task.newText });
-      dispatch(MiddlewareActions.fetchTasks());
+      // dispatch(MiddlewareActions.fetchTasks());
     } catch (error) {
       console.log(error);
     }

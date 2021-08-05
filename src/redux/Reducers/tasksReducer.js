@@ -24,6 +24,10 @@ export const tasksReducer = (state = initialState, action) => {
       return {
         ...state, tasks: action.payload,
       };
+    case ActionTypes.SET_POST_TASK:
+      return {
+        ...state, tasks: [...state.tasks, action.payload],
+      };
     case ActionTypes.SET_COMPLETED_TASK: {
       return {
         ...state,
@@ -36,6 +40,10 @@ export const tasksReducer = (state = initialState, action) => {
         }),
       };
     }
+    case ActionTypes.SET_REMOVE_TASK:
+      return {
+        ...state, tasks: state.tasks.filter((task) => task.id !== action.payload.id),
+      };
     default:
       return state;
   }
