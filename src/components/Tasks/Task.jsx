@@ -60,14 +60,6 @@ const Task = ({
   );
 };
 
-Task.defaultProps = {
-  text: '',
-  onRemove: () => {},
-  onComplete: () => {},
-  completed: false,
-  id: undefined,
-};
-
 Task.propTypes = {
   text: PropTypes.string,
   onRemove: PropTypes.func,

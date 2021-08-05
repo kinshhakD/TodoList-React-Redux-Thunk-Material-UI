@@ -68,13 +68,6 @@ const Tasks = ({
     </Box>
   );
 };
-
-Tasks.defaultProps = {
-  tasksAll: true,
-  tasksCompleted: false,
-  tasksNotCompleted: false,
-};
-
 Tasks.propTypes = {
   tasksAll: PropTypes.bool,
   tasksCompleted: PropTypes.bool,

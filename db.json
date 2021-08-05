@@ -2,8 +2,18 @@
   "tasks": [
     {
       "text": "1",
-      "completed": false,
+      "completed": true,
       "id": 1
+    },
+    {
+      "text": "2",
+      "completed": false,
+      "id": 2
+    },
+    {
+      "text": "3",
+      "completed": false,
+      "id": 3
     }
   ]
 }
