@@ -29,7 +29,10 @@ export const tasksReducer = (state = initialState, action) => {
       };
     case ActionTypes.SET_POST_TASK:
       return {
-        ...state, tasks: [...state.tasks, action.payload],
+        ...state,
+        tasks: [...state.tasks, action.payload],
+        completedTasks: [...state.completedTasks, action.payload],
+        notCompletedTasks: [...state.notCompletedTasks, action.payload],
       };
     case ActionTypes.SET_COMPLETED_TASK: {
       return {
@@ -41,16 +44,45 @@ export const tasksReducer = (state = initialState, action) => {
             };
           } return task;
         }),
+        completedTasks: state.completedTasks.map((task) => {
+          if (task.id === action.payload.id) {
+            return {
+              ...task, completed: !task.completed,
+            };
+          } return task;
+        }),
+        notCompletedTasks: state.notCompletedTasks.map((task) => {
+          if (task.id === action.payload.id) {
+            return {
+              ...task, completed: !task.completed,
+            };
+          } return task;
+        }),
       };
     }
     case ActionTypes.SET_EDITING_TASK: {
-      console.log(action);
       return {
         ...state,
         tasks: state.tasks.map((task) => {
           if (task.id === action.payload.id) {
             return {
-              ...state, text: action.payload.newText,
+              ...task, text: action.payload.newText,
+            };
+          }
+          return task;
+        }),
+        completedTasks: state.completedTasks.map((task) => {
+          if (task.id === action.payload.id) {
+            return {
+              ...task, text: action.payload.newText,
+            };
+          }
+          return task;
+        }),
+        notCompletedTasks: state.notCompletedTasks.map((task) => {
+          if (task.id === action.payload.id) {
+            return {
+              ...task, text: action.payload.newText,
             };
           }
           return task;
@@ -59,7 +91,10 @@ export const tasksReducer = (state = initialState, action) => {
     }
     case ActionTypes.SET_REMOVE_TASK:
       return {
-        ...state, tasks: state.tasks.filter((task) => task.id !== action.payload.id),
+        ...state,
+        tasks: state.tasks.filter((task) => task.id !== action.payload.id),
+        completedTasks: state.completedTasks.filter((task) => task.id !== action.payload.id),
+        notCompletedTasks: state.notCompletedTasks.filter((task) => task.id !== action.payload.id),
       };
     default:
       return state;
