@@ -33,7 +33,6 @@ export const MiddlewareActions = {
     dispatch(taskActions.setLoading(true));
     try {
       const response = await axios.get('http://localhost:3000/tasks');
-      console.log(response.data);
       dispatch(taskActions.setTasks(response.data));
     } catch (error) {
       console.log(error);

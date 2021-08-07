@@ -1,6 +1,9 @@
 import React, { useState } from 'react';
 import {
   Box, Button, TextField, Typography,
+  ListItem,
+  makeStyles,
+  withStyles,
 } from '@material-ui/core';
 import DeleteIcon from '@material-ui/icons/Delete';
 import EditIcon from '@material-ui/icons/Edit';
@@ -9,9 +12,19 @@ import { useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
 import { MiddlewareActions } from '../../redux/Actions/Actions';
 
+const useStyles = makeStyles({
+  listItem: {
+    display: 'flex',
+    justifyContent: 'space-between',
+    marginBottom: '40px',
+  },
+});
+
 const Task = ({
   text, onRemove, onComplete, completed, id,
 }) => {
+  const styles = useStyles();
+
   const [editTask, setEditTask] = useState(false);
 
   const [inputEditTask, setInputEditTask] = useState(text);
@@ -28,11 +41,14 @@ const Task = ({
     setEditTask(!editTask);
   };
 
-  const postEditTask = (task) => dispatch(MiddlewareActions.editTask(task));
+  const postEditTask = (task) => {
+    dispatch(MiddlewareActions.editTask(task));
+    setEditTask(false);
+  };
 
   return (
 
-    <Box mb={10} fontSize={24} display="flex" justifyContent="space-between">
+    <ListItem fontSize={24} className={styles.listItem}>
       {
           editTask
             ? <TextField value={inputEditTask} onChange={handleChange} fullWidth className="input__edit" />
@@ -55,7 +71,7 @@ const Task = ({
           <DeleteIcon cursor="pointer" />
         </Button>
       </Box>
-    </Box>
+    </ListItem>
 
   );
 };

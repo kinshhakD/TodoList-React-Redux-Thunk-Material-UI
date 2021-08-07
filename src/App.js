@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import {
-  Container,
+  Container, makeStyles, Typography,
 } from '@material-ui/core';
 import './App.css';
 import { useDispatch } from 'react-redux';
@@ -9,7 +9,17 @@ import FormTask from './components/FormTask/FormTask';
 import CategoryTasks from './components/CategoryLists/CategoryTasks';
 import { MiddlewareActions } from './redux/Actions/Actions';
 
+const useStyles = makeStyles({
+  title: {
+    textAlign: 'center',
+    marginBottom: '100px',
+    color: 'red',
+  },
+});
+
 function App() {
+  const styles = useStyles();
+
   const [allTasks, setAllTasks] = useState(true);
 
   const [completedTasks, setCompletedTasks] = useState(false);
@@ -43,6 +53,9 @@ function App() {
   return (
     <div className="App">
       <Container>
+        <Typography variant="h1" className={styles.title}>
+          Todo-App
+        </Typography>
         <FormTask />
         <CategoryTasks
           tasksAll={showAllTasks}

@@ -22,5 +22,6 @@ module.exports = {
     'linebreak-style': 0,
     'react/jsx-filename-extension': [1, { extensions: ['.js', '.jsx'] }],
     'import/prefer-default-export': 'off',
+    'no-nested-ternary': 'off',
   },
 };
