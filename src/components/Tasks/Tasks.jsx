@@ -90,34 +90,37 @@ const Tasks = ({
               )) : null
       }
       </List>
-      <Box display="flex" justifyContent="center">
-
-        {
+      {
           filterTasks === 'allTasks' && tasks.length > 3 ? (
-            <Pagination
-              defaultPage={1}
-              page={currentPage}
-              onChange={changePage}
-              count={Math.ceil(tasks.length / tasksPerPage)}
-            />
+            <Box display="flex" justifyContent="center">
+              <Pagination
+                defaultPage={1}
+                page={currentPage}
+                onChange={changePage}
+                count={Math.ceil(tasks.length / tasksPerPage)}
+              />
+            </Box>
           )
             : filterTasks === 'completed' && completedList.length > 3 ? (
-              <Pagination
-                defaultPage={1}
-                page={currentPage}
-                onChange={changePage}
-                count={Math.ceil(completedList.length / tasksPerPage)}
-              />
+              <Box display="flex" justifyContent="center">
+                <Pagination
+                  defaultPage={1}
+                  page={currentPage}
+                  onChange={changePage}
+                  count={Math.ceil(completedList.length / tasksPerPage)}
+                />
+              </Box>
             ) : filterTasks === 'notCompleted' && notCompletedList.length > 3 ? (
-              <Pagination
-                defaultPage={1}
-                page={currentPage}
-                onChange={changePage}
-                count={Math.ceil(notCompletedList.length / tasksPerPage)}
-              />
+              <Box display="flex" justifyContent="center">
+                <Pagination
+                  defaultPage={1}
+                  page={currentPage}
+                  onChange={changePage}
+                  count={Math.ceil(notCompletedList.length / tasksPerPage)}
+                />
+              </Box>
             ) : null
         }
-      </Box>
     </Box>
   );
 };
