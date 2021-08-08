@@ -1,4 +1,4 @@
-import { Box, List, ListItem } from '@material-ui/core';
+import { Box, List } from '@material-ui/core';
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
@@ -7,11 +7,16 @@ import { MiddlewareActions } from '../../redux/Actions/Actions';
 import Task from './Task';
 
 const Tasks = ({
-  tasksAll, tasksCompleted, tasksNotCompleted,
+  filterTasks,
 }) => {
-  const [currentPage, setCurrentPage] = useState(1);
+  const dispatch = useDispatch();
 
-  const [tasksPerPage] = useState(3);
+  const [pagination, setPagination] = useState({
+    currentPage: 1,
+    tasksPerPage: 3,
+  });
+
+  const { currentPage, tasksPerPage } = pagination;
 
   const lastTaskIndex = currentPage * tasksPerPage;
 
@@ -25,7 +30,7 @@ const Tasks = ({
 
   const paginationList = (list = []) => list.slice(firstTaskIndex, lastTaskIndex);
 
-  const changePage = (event, newPage) => setCurrentPage(newPage);
+  const changePage = (event, newPage) => setPagination({ ...pagination, currentPage: newPage });
 
   const paginationAllTasks = paginationList(tasks);
 
@@ -33,11 +38,13 @@ const Tasks = ({
 
   const paginationNotCompletedTasks = paginationList(notCompletedList);
 
-  const dispatch = useDispatch();
-
   const removeTask = (task) => {
     dispatch(MiddlewareActions.removeTask(task));
   };
+
+  useEffect(() => {
+    setPagination({ ...pagination, currentPage: 1 });
+  }, [filterTasks]);
 
   const completedTask = (task) => dispatch(MiddlewareActions.completedTask(task));
 
@@ -45,91 +52,77 @@ const Tasks = ({
     <Box>
       <List>
         {
-        tasksAll
+        filterTasks === 'allTasks'
         && tasks.length > 0
-           && paginationAllTasks.map((task) => (
-             <Task
-               text={task.text}
-               key={task.text}
-               onRemove={() => removeTask(task)}
-               onComplete={() => completedTask(task)}
-               completed={task.completed}
-               id={task.id}
-             />
-           ))
-      }
-        {
-        tasksCompleted
-         && completedList.length > 0
-         && paginationCompletedTasks.map((task) => (
-           <Task
-             text={task.text}
-             key={task.text}
-             onRemove={() => removeTask(task)}
-             onComplete={() => completedTask(task)}
-             completed={task.completed}
-             id={task.id}
-           />
-         ))
-      }
-        {
-        tasksNotCompleted
-        && notCompletedList.length > 0
-         && paginationNotCompletedTasks.map((task) => (
-           <Task
-             text={task.text}
-             key={task.text}
-             onRemove={() => removeTask(task)}
-             onComplete={() => completedTask(task)}
-             completed={task.completed}
-             id={task.id}
-           />
-         ))
+          ? paginationAllTasks.map((task) => (
+            <Task
+              text={task.text}
+              key={task.text}
+              onRemove={() => removeTask(task)}
+              onComplete={() => completedTask(task)}
+              completed={task.completed}
+              id={task.id}
+            />
+          ))
+          : filterTasks === 'completed'
+          && completedList.length > 0
+            ? paginationCompletedTasks.map((task) => (
+              <Task
+                text={task.text}
+                key={task.text}
+                onRemove={() => removeTask(task)}
+                onComplete={() => completedTask(task)}
+                completed={task.completed}
+                id={task.id}
+              />
+            ))
+            : filterTasks === 'notCompleted'
+            && notCompletedList.length > 0
+              ? paginationNotCompletedTasks.map((task) => (
+                <Task
+                  text={task.text}
+                  key={task.text}
+                  onRemove={() => removeTask(task)}
+                  onComplete={() => completedTask(task)}
+                  completed={task.completed}
+                  id={task.id}
+                />
+              )) : null
       }
       </List>
       <Box display="flex" justifyContent="center">
+
         {
-          tasksAll ? (
-            tasks.length > 3 ? (
+          filterTasks === 'allTasks' && tasks.length > 3 ? (
+            <Pagination
+              defaultPage={1}
+              page={currentPage}
+              onChange={changePage}
+              count={Math.ceil(tasks.length / tasksPerPage)}
+            />
+          )
+            : filterTasks === 'completed' && completedList.length > 3 ? (
               <Pagination
                 defaultPage={1}
                 page={currentPage}
                 onChange={changePage}
-                count={Math.ceil(tasks.length / tasksPerPage)}
+                count={Math.ceil(completedList.length / tasksPerPage)}
+              />
+            ) : filterTasks === 'notCompleted' && notCompletedList.length > 3 ? (
+              <Pagination
+                defaultPage={1}
+                page={currentPage}
+                onChange={changePage}
+                count={Math.ceil(notCompletedList.length / tasksPerPage)}
               />
             ) : null
-          )
-            : tasksCompleted
-              ? (completedList.length > 3
-                ? (
-                  <Pagination
-                    defaultPage={1}
-                    page={currentPage}
-                    onChange={changePage}
-                    count={Math.ceil(completedList.length / tasksPerPage)}
-                  />
-                ) : null)
-              : tasksNotCompleted
-                ? (notCompletedList.length > 3
-                  ? (
-                    <Pagination
-                      defaultPage={1}
-                      page={currentPage}
-                      onChange={changePage}
-                      count={Math.ceil(notCompletedList.length / tasksPerPage)}
-                    />
-                  ) : null)
-                : null
         }
       </Box>
     </Box>
   );
 };
 Tasks.propTypes = {
-  tasksAll: PropTypes.bool,
-  tasksCompleted: PropTypes.bool,
-  tasksNotCompleted: PropTypes.bool,
-
+  filterTasks: PropTypes.string,
 };
 
 export default Tasks;

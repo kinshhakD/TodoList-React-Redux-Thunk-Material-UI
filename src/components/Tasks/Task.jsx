@@ -31,7 +31,7 @@ const Task = ({
 
   const dispatch = useDispatch();
 
-  const handleChange = (e) => setInputEditTask(e.target.value);
+  const handleChange = ({ target }) => setInputEditTask(target.value);
 
   const onEditTask = () => {
     if (editTask) {
@@ -48,7 +48,7 @@ const Task = ({
 
   return (
 
-    <ListItem fontSize={24} className={styles.listItem}>
+    <ListItem className={styles.listItem}>
       {
           editTask
             ? <TextField value={inputEditTask} onChange={handleChange} fullWidth className="input__edit" />

@@ -20,35 +20,19 @@ const useStyles = makeStyles({
 function App() {
   const styles = useStyles();
 
-  const [allTasks, setAllTasks] = useState(true);
-
-  const [completedTasks, setCompletedTasks] = useState(false);
-
-  const [notCompletedTasks, setNotCompletedTasks] = useState(false);
-
   const dispatch = useDispatch();
+
+  const [filterTasks, setFilterTasks] = useState('allTasks');
+
+  const onFilterAll = () => setFilterTasks('allTasks');
+
+  const onFilterCompleted = () => setFilterTasks('completed');
+
+  const onFilterNotCompleted = () => setFilterTasks('notCompleted');
 
   useEffect(() => {
     dispatch(MiddlewareActions.fetchTasks());
-  }, [allTasks, completedTasks, notCompletedTasks]);
-
-  const showAllTasks = () => {
-    setAllTasks(true);
-    setCompletedTasks(false);
-    setNotCompletedTasks(false);
-  };
-
-  const showCompletedTasks = () => {
-    setCompletedTasks(true);
-    setAllTasks(false);
-    setNotCompletedTasks(false);
-  };
-
-  const showNotCompletedTasks = () => {
-    setNotCompletedTasks(true);
-    setAllTasks(false);
-    setCompletedTasks(false);
-  };
+  }, [filterTasks]);
 
   return (
     <div className="App">
@@ -58,19 +42,12 @@ function App() {
         </Typography>
         <FormTask />
         <CategoryTasks
-          tasksAll={showAllTasks}
-          tasksCompleted={showCompletedTasks}
-          tasksNotCompleted={showNotCompletedTasks}
+          filterTasks={filterTasks}
+          onFilterAll={onFilterAll}
+          onFilterCompleted={onFilterCompleted}
+          onFilterNotCompleted={onFilterNotCompleted}
         />
-        {
-         allTasks && <Tasks tasksAll />
-        }
-        {
-          completedTasks && <Tasks tasksCompleted />
-        }
-        {
-          notCompletedTasks && <Tasks tasksNotCompleted />
-        }
+        <Tasks filterTasks={filterTasks} />
       </Container>
     </div>
   );

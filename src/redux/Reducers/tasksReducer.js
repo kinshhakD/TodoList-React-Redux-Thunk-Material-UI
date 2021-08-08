@@ -3,12 +3,12 @@ import { ActionTypes } from '../Actions/Actions';
 const initialState = {
   tasks: [{
     id: 1,
-    text: 'Изучить JavaScript',
+    text: '1',
     completed: false,
   },
   {
     id: 2,
-    text: 'Изучить паттерны проектирования',
+    text: '2',
     completed: false,
   }],
   loading: false,
