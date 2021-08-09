@@ -1,14 +1,21 @@
-import { Box, List } from '@material-ui/core';
+import { Box, List, makeStyles } from '@material-ui/core';
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
-import { Pagination } from '@material-ui/lab';
 import { MiddlewareActions } from '../../redux/Actions/Actions';
 import Task from './Task';
+import { TasksContext } from '../../Context';
+import CategoryPage from '../Pagination/CategoryPage';
 
-const Tasks = ({
-  filterTasks,
-}) => {
+const useStyles = makeStyles({
+  list: {
+    minHeight: '300px',
+  },
+});
+
+const Tasks = ({ filterTasks }) => {
+  const styles = useStyles();
+
   const dispatch = useDispatch();
 
   const [pagination, setPagination] = useState({
@@ -30,8 +37,6 @@ const Tasks = ({
 
   const paginationList = (list = []) => list.slice(firstTaskIndex, lastTaskIndex);
 
-  const changePage = (event, newPage) => setPagination({ ...pagination, currentPage: newPage });
-
   const paginationAllTasks = paginationList(tasks);
 
   const paginationCompletedTasks = paginationList(completedList);
@@ -42,16 +47,24 @@ const Tasks = ({
     dispatch(MiddlewareActions.removeTask(task));
   };
 
+  const completedTask = (task) => dispatch(MiddlewareActions.completedTask(task));
+
   useEffect(() => {
     setPagination({ ...pagination, currentPage: 1 });
   }, [filterTasks]);
-
-  const completedTask = (task) => dispatch(MiddlewareActions.completedTask(task));
-
   return (
-    <Box>
-      <List>
-        {
+    <TasksContext.Provider value={{
+      tasks,
+      completedList,
+      notCompletedList,
+      filterTasks,
+      pagination,
+      setPagination,
+    }}
+    >
+      <Box>
+        <List className={styles.list}>
+          {
         filterTasks === 'allTasks'
         && tasks.length > 0
           ? paginationAllTasks.map((task) => (
@@ -89,39 +102,10 @@ const Tasks = ({
                 />
               )) : null
       }
-      </List>
-      {
-          filterTasks === 'allTasks' && tasks.length > 3 ? (
-            <Box display="flex" justifyContent="center">
-              <Pagination
-                defaultPage={1}
-                page={currentPage}
-                onChange={changePage}
-                count={Math.ceil(tasks.length / tasksPerPage)}
-              />
-            </Box>
-          )
-            : filterTasks === 'completed' && completedList.length > 3 ? (
-              <Box display="flex" justifyContent="center">
-                <Pagination
-                  defaultPage={1}
-                  page={currentPage}
-                  onChange={changePage}
-                  count={Math.ceil(completedList.length / tasksPerPage)}
-                />
-              </Box>
-            ) : filterTasks === 'notCompleted' && notCompletedList.length > 3 ? (
-              <Box display="flex" justifyContent="center">
-                <Pagination
-                  defaultPage={1}
-                  page={currentPage}
-                  onChange={changePage}
-                  count={Math.ceil(notCompletedList.length / tasksPerPage)}
-                />
-              </Box>
-            ) : null
-        }
-    </Box>
+        </List>
+        <CategoryPage />
+      </Box>
+    </TasksContext.Provider>
   );
 };
 Tasks.propTypes = {
