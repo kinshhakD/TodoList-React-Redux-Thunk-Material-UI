@@ -6,6 +6,7 @@ import { MiddlewareActions } from '../../redux/Actions/Actions';
 import Task from './Task';
 import { TasksContext } from '../../Context';
 import CategoryPage from '../Pagination/CategoryPage';
+import { completedTasksSelector, notCompletedTasksSelector, tasksSelector } from '../../Selectors/todosSelectors';
 
 const useStyles = makeStyles({
   list: {
@@ -29,19 +30,25 @@ const Tasks = ({ filterTasks }) => {
 
   const firstTaskIndex = lastTaskIndex - tasksPerPage;
 
-  const tasks = useSelector((store) => store.tasks.tasks);
+  const tasks = useSelector(tasksSelector);
 
-  const completedList = useSelector((store) => store.tasks.completedTasks);
+  // const completedList = useSelector((store) => store.tasks.completedTasks);
 
-  const notCompletedList = useSelector((store) => store.tasks.notCompletedTasks);
+  // const notCompletedList = useSelector((store) => store.tasks.notCompletedTasks);
+
+  const tasksSel = useSelector(tasksSelector);
+
+  const completedTasksSel = useSelector(completedTasksSelector);
+
+  const notCompletedTasksSel = useSelector(notCompletedTasksSelector);
 
   const paginationList = (list = []) => list.slice(firstTaskIndex, lastTaskIndex);
 
-  const paginationAllTasks = paginationList(tasks);
+  const paginationAllTasks = paginationList(tasksSel);
 
-  const paginationCompletedTasks = paginationList(completedList);
+  const paginationCompletedTasks = paginationList(completedTasksSel);
 
-  const paginationNotCompletedTasks = paginationList(notCompletedList);
+  const paginationNotCompletedTasks = paginationList(notCompletedTasksSel);
 
   const removeTask = (task) => {
     dispatch(MiddlewareActions.removeTask(task));
@@ -55,8 +62,8 @@ const Tasks = ({ filterTasks }) => {
   return (
     <TasksContext.Provider value={{
       tasks,
-      completedList,
-      notCompletedList,
+      completedTasksSel,
+      notCompletedTasksSel,
       filterTasks,
       pagination,
       setPagination,
@@ -70,7 +77,7 @@ const Tasks = ({ filterTasks }) => {
           ? paginationAllTasks.map((task) => (
             <Task
               text={task.text}
-              key={task.text}
+              key={task.id}
               onRemove={() => removeTask(task)}
               onComplete={() => completedTask(task)}
               completed={task.completed}
@@ -78,11 +85,11 @@ const Tasks = ({ filterTasks }) => {
             />
           ))
           : filterTasks === 'completed'
-          && completedList.length > 0
+          && tasks.length > 0
             ? paginationCompletedTasks.map((task) => (
               <Task
                 text={task.text}
-                key={task.text}
+                key={task.id}
                 onRemove={() => removeTask(task)}
                 onComplete={() => completedTask(task)}
                 completed={task.completed}
@@ -90,11 +97,11 @@ const Tasks = ({ filterTasks }) => {
               />
             ))
             : filterTasks === 'notCompleted'
-            && notCompletedList.length > 0
+            && tasks.length > 0
               ? paginationNotCompletedTasks.map((task) => (
                 <Task
                   text={task.text}
-                  key={task.text}
+                  key={task.id}
                   onRemove={() => removeTask(task)}
                   onComplete={() => completedTask(task)}
                   completed={task.completed}
@@ -108,6 +115,11 @@ const Tasks = ({ filterTasks }) => {
     </TasksContext.Provider>
   );
 };
+
+Tasks.defaultProps = {
+  filterTasks: 'allTasks',
+};
+
 Tasks.propTypes = {
   filterTasks: PropTypes.string,
 };

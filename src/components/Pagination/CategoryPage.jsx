@@ -14,7 +14,7 @@ const useStyles = makeStyles({
 
 function CategoryPage() {
   const {
-    filterTasks, tasks, completedList, notCompletedList, pagination, setPagination,
+    filterTasks, tasks, completedTasksSel, notCompletedTasksSel, pagination, setPagination,
   } = useContext(TasksContext);
 
   const styles = useStyles();
@@ -23,6 +23,7 @@ function CategoryPage() {
 
   const changePage = (event, newPage) => setPagination({ ...pagination, currentPage: newPage });
 
+  // eslint-disable-next-line max-len
   const changeTasksPerPage = ({ target }) => setPagination({ ...pagination, currentPage: 1, tasksPerPage: target.value });
 
   return (
@@ -42,27 +43,27 @@ function CategoryPage() {
               />
             </Box>
           )
-            : filterTasks === 'completed' && completedList.length > tasksPerPage ? (
+            : filterTasks === 'completed' && completedTasksSel.length > tasksPerPage ? (
               <Box display="flex" justifyContent="center">
                 <Pagination
                   className={styles.pagination}
                   defaultValue={1}
                   page={currentPage}
                   onChange={changePage}
-                  count={Math.ceil(completedList.length / tasksPerPage)}
+                  count={Math.ceil(completedTasksSel.length / tasksPerPage)}
                 />
                 <TasksPerPage
                   onChangeTasksPerPage={changeTasksPerPage}
                 />
               </Box>
-            ) : filterTasks === 'notCompleted' && notCompletedList.length > tasksPerPage ? (
+            ) : filterTasks === 'notCompleted' && notCompletedTasksSel.length > tasksPerPage ? (
               <Box display="flex" justifyContent="center">
                 <Pagination
                   className={styles.pagination}
                   defaultValue={1}
                   page={currentPage}
                   onChange={changePage}
-                  count={Math.ceil(notCompletedList.length / tasksPerPage)}
+                  count={Math.ceil(notCompletedTasksSel.length / tasksPerPage)}
                 />
                 <TasksPerPage
                   onChangeTasksPerPage={changeTasksPerPage}

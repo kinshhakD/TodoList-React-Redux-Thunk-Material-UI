@@ -3,7 +3,6 @@ import {
   Box, Button, TextField, Typography,
   ListItem,
   makeStyles,
-  withStyles,
 } from '@material-ui/core';
 import DeleteIcon from '@material-ui/icons/Delete';
 import EditIcon from '@material-ui/icons/Edit';
@@ -77,11 +76,11 @@ const Task = ({
 };
 
 Task.propTypes = {
-  text: PropTypes.string,
-  onRemove: PropTypes.func,
-  onComplete: PropTypes.func,
-  completed: PropTypes.bool,
-  id: PropTypes.number,
+  text: PropTypes.string.isRequired,
+  onRemove: PropTypes.func.isRequired,
+  onComplete: PropTypes.func.isRequired,
+  completed: PropTypes.bool.isRequired,
+  id: PropTypes.number.isRequired,
 
 };
 

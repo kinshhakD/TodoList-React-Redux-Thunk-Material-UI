@@ -22,11 +22,15 @@ const CategoryTasks = ({
   </Box>
 );
 
+CategoryTasks.defaultProps = {
+  filterTasks: 'allTasks',
+};
+
 CategoryTasks.propTypes = {
   filterTasks: PropTypes.string,
-  onFilterAll: PropTypes.func,
-  onFilterCompleted: PropTypes.func,
-  onFilterNotCompleted: PropTypes.func,
+  onFilterAll: PropTypes.func.isRequired,
+  onFilterCompleted: PropTypes.func.isRequired,
+  onFilterNotCompleted: PropTypes.func.isRequired,
 
 };
 
