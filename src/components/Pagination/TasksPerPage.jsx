@@ -20,7 +20,7 @@ function TasksPerPage({ onChangeTasksPerPage }) {
 }
 
 TasksPerPage.propTypes = {
-  onChangeTasksPerPage: PropTypes.func,
+  onChangeTasksPerPage: PropTypes.func.isRequired,
 };
 
 export default TasksPerPage;

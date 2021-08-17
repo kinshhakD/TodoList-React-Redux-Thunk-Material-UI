@@ -3,9 +3,7 @@ import axios from 'axios';
 export const ActionTypes = {
   SET_LOADING: 'SET_LOADING',
   SET_TASKS: 'SET_TASKS',
-  SET_COMPLETED_TASKS_LIST: 'SET_COMPLETED_TASKS_LIST',
   SET_COMPLETED_TASK: 'SET_COMPLETED_TASK',
-  SET_NOT_COMPLETED_TASKS_LIST: 'SET_NOT_COMPLETED_TASKS_LIST',
   SET_REMOVE_TASK: 'SET_REMOVE_TASK',
   SET_POST_TASK: 'SET_POST_TASK',
   SET_EDITING_TASK: 'SET_EDITING_TASK',
@@ -15,8 +13,6 @@ export const taskActions = {
   setLoading: (loading) => ({ type: ActionTypes.SET_LOADING, payload: loading }),
 
   setTasks: (tasks) => ({ type: ActionTypes.SET_TASKS, payload: tasks }),
-
-  setCompletedList: (tasks) => ({ type: ActionTypes.SET_COMPLETED_TASKS_LIST, payload: tasks }),
 
   setPostTask: (task) => ({ type: ActionTypes.SET_POST_TASK, payload: task }),
 
