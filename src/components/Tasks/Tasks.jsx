@@ -76,10 +76,12 @@ const Tasks = ({ filterTasks }) => {
       <Box>
         <List className={styles.list}>
           {
+            // Tasks-Lists
             searchValue.length > 0 ? <SearchTasks /> : <CategoryTasks />
           }
         </List>
         {
+          // Pagination
         !searchValue && <CategoryPage />
         }
       </Box>

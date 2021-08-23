@@ -21,63 +21,82 @@ function CategoryPage() {
 
   const { currentPage, tasksPerPage } = pagination;
 
-  const changePage = (event, newPage) => setPagination({ ...pagination, currentPage: newPage });
+  const changePage = (event, newPage) => setPagination({
+    ...pagination,
+    currentPage: newPage,
+  });
 
   const changeTasksPerPage = ({ target }) => setPagination({
     currentPage: 1,
-    tasksPerPage: +(target.value),
+    tasksPerPage: +target.value,
   });
 
   return (
     <>
       {
-        filterTasks === 'allTasks' && tasks.length > tasksPerPage
+        filterTasks === 'allTasks'
         && (
           <Box display="flex" justifyContent="center">
-            <Pagination
-              className={styles.pagination}
-              defaultValue={1}
-              page={currentPage}
-              onChange={changePage}
-              count={Math.ceil(tasks.length / tasksPerPage)}
-            />
+            {
+              tasks.length > tasksPerPage && (
+                <Pagination
+                  className={styles.pagination}
+                  defaultValue={1}
+                  page={currentPage}
+                  onChange={changePage}
+                  count={Math.ceil(tasks.length / tasksPerPage)}
+                />
+              )
+            }
             <TasksPerPage
               tasksPerPage={tasksPerPage}
               onChangeTasksPerPage={changeTasksPerPage}
+              allLength={tasks.length}
             />
           </Box>
         )
       }
       {
-        filterTasks === 'completed' && completedTasksSel.length > tasksPerPage && (
+        filterTasks === 'completed' && (
           <Box display="flex" justifyContent="center">
-            <Pagination
-              className={styles.pagination}
-              defaultValue={1}
-              page={currentPage}
-              onChange={changePage}
-              count={Math.ceil(completedTasksSel.length / tasksPerPage)}
-            />
+            {
+              completedTasksSel.length > tasksPerPage && (
+                <Pagination
+                  className={styles.pagination}
+                  defaultValue={1}
+                  page={currentPage}
+                  onChange={changePage}
+                  count={Math.ceil(completedTasksSel.length / tasksPerPage)}
+                />
+              )
+           }
+              {/* если нет пагинации то и нет компонента TasksPerPage */}
             <TasksPerPage
               tasksPerPage={tasksPerPage}
               onChangeTasksPerPage={changeTasksPerPage}
+              allLength={completedTasksSel.length}
             />
           </Box>
         )
       }
       {
-        filterTasks === 'notCompleted' && notCompletedTasksSel.length > tasksPerPage && (
+        filterTasks === 'notCompleted' && (
           <Box display="flex" justifyContent="center">
-            <Pagination
-              className={styles.pagination}
-              defaultValue={1}
-              page={currentPage}
-              onChange={changePage}
-              count={Math.ceil(notCompletedTasksSel.length / tasksPerPage)}
-            />
+            {
+              notCompletedTasksSel.length > tasksPerPage && (
+                <Pagination
+                  className={styles.pagination}
+                  defaultValue={1}
+                  page={currentPage}
+                  onChange={changePage}
+                  count={Math.ceil(notCompletedTasksSel.length / tasksPerPage)}
+                />
+              )
+            }
             <TasksPerPage
               onChangeTasksPerPage={changeTasksPerPage}
               tasksPerPage={tasksPerPage}
+              allLength={notCompletedTasksSel.length}
             />
           </Box>
         )

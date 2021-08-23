@@ -2,7 +2,7 @@ import { MenuItem, Select } from '@material-ui/core';
 import React from 'react';
 import PropTypes from 'prop-types';
 
-function TasksPerPage({ onChangeTasksPerPage, tasksPerPage }) {
+function TasksPerPage({ onChangeTasksPerPage, tasksPerPage, allLength }) {
   return (
     <Select
       value={tasksPerPage}
@@ -13,6 +13,7 @@ function TasksPerPage({ onChangeTasksPerPage, tasksPerPage }) {
       <MenuItem value="3">3</MenuItem>
       <MenuItem value="4">4</MenuItem>
       <MenuItem value="5">5</MenuItem>
+      <MenuItem value={allLength}>Show all</MenuItem>
     </Select>
   );
 }
@@ -20,6 +21,7 @@ function TasksPerPage({ onChangeTasksPerPage, tasksPerPage }) {
 TasksPerPage.propTypes = {
   onChangeTasksPerPage: PropTypes.func.isRequired,
   tasksPerPage: PropTypes.number.isRequired,
+  allLength: PropTypes.number.isRequired,
 };
 
 export default TasksPerPage;

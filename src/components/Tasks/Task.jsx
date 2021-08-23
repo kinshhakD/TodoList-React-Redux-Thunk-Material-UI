@@ -46,16 +46,17 @@ const Task = ({
 
   const postOrEdit = editTask ? () => postEditTask({ id, newText: inputEditTask }) : onComplete;
 
-  const TextOrInput = () => (editTask
-    ? <TextField value={inputEditTask} onChange={handleChange} fullWidth className="input__edit" />
-    : (
-      <Paper className={completed ? 'completed' : undefined}>
-        {text}
-      </Paper>
-    ));
   return (
     <ListItem className={styles.listItem}>
-      <TextOrInput />
+      {
+        editTask
+          ? <TextField value={inputEditTask} onChange={handleChange} fullWidth className="input__edit" />
+          : (
+            <Paper className={completed ? 'completed' : undefined}>
+              {text}
+            </Paper>
+          )
+      }
       <ButtonsListItem
         postOrEdit={postOrEdit}
         onEditTask={onEditTask}

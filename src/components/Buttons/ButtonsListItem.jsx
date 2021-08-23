@@ -9,13 +9,13 @@ function ButtonsListItem({ postOrEdit, onEditTask, onRemove }) {
   return (
     <Box display="flex">
       <Button onClick={postOrEdit}>
-        <DoneIcon cursor="pointer" className="icon__task" />
+        <DoneIcon />
       </Button>
       <Button onClick={onEditTask}>
-        <EditIcon cursor="pointer" className="icon__task" />
+        <EditIcon />
       </Button>
       <Button onClick={onRemove}>
-        <DeleteIcon cursor="pointer" />
+        <DeleteIcon />
       </Button>
     </Box>
   );
