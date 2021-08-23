@@ -2,10 +2,10 @@ import { MenuItem, Select } from '@material-ui/core';
 import React from 'react';
 import PropTypes from 'prop-types';
 
-function TasksPerPage({ onChangeTasksPerPage }) {
+function TasksPerPage({ onChangeTasksPerPage, tasksPerPage }) {
   return (
     <Select
-      defaultValue={1}
+      value={tasksPerPage}
       onChange={onChangeTasksPerPage}
     >
       <MenuItem value="1">1</MenuItem>
@@ -13,14 +13,13 @@ function TasksPerPage({ onChangeTasksPerPage }) {
       <MenuItem value="3">3</MenuItem>
       <MenuItem value="4">4</MenuItem>
       <MenuItem value="5">5</MenuItem>
-      <MenuItem value="6">6</MenuItem>
-      <MenuItem value="7">7</MenuItem>
     </Select>
   );
 }
 
 TasksPerPage.propTypes = {
   onChangeTasksPerPage: PropTypes.func.isRequired,
+  tasksPerPage: PropTypes.number.isRequired,
 };
 
 export default TasksPerPage;

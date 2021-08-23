@@ -23,57 +23,67 @@ function CategoryPage() {
 
   const changePage = (event, newPage) => setPagination({ ...pagination, currentPage: newPage });
 
-  // eslint-disable-next-line max-len
-  const changeTasksPerPage = ({ target }) => setPagination({ ...pagination, currentPage: 1, tasksPerPage: target.value });
+  const changeTasksPerPage = ({ target }) => setPagination({
+    currentPage: 1,
+    tasksPerPage: +(target.value),
+  });
 
   return (
     <>
       {
-          filterTasks === 'allTasks' && tasks.length > tasksPerPage ? (
-            <Box display="flex" justifyContent="center">
-              <Pagination
-                className={styles.pagination}
-                defaultValue={1}
-                page={currentPage}
-                onChange={changePage}
-                count={Math.ceil(tasks.length / tasksPerPage)}
-              />
-              <TasksPerPage
-                onChangeTasksPerPage={changeTasksPerPage}
-              />
-            </Box>
-          )
-            : filterTasks === 'completed' && completedTasksSel.length > tasksPerPage ? (
-              <Box display="flex" justifyContent="center">
-                <Pagination
-                  className={styles.pagination}
-                  defaultValue={1}
-                  page={currentPage}
-                  onChange={changePage}
-                  count={Math.ceil(completedTasksSel.length / tasksPerPage)}
-                />
-                <TasksPerPage
-                  onChangeTasksPerPage={changeTasksPerPage}
-                />
-              </Box>
-            ) : filterTasks === 'notCompleted' && notCompletedTasksSel.length > tasksPerPage ? (
-              <Box display="flex" justifyContent="center">
-                <Pagination
-                  className={styles.pagination}
-                  defaultValue={1}
-                  page={currentPage}
-                  onChange={changePage}
-                  count={Math.ceil(notCompletedTasksSel.length / tasksPerPage)}
-                />
-                <TasksPerPage
-                  onChangeTasksPerPage={changeTasksPerPage}
-                  tasksPerPage={tasksPerPage}
-                />
-              </Box>
-            ) : null
-        }
+        filterTasks === 'allTasks' && tasks.length > tasksPerPage
+        && (
+          <Box display="flex" justifyContent="center">
+            <Pagination
+              className={styles.pagination}
+              defaultValue={1}
+              page={currentPage}
+              onChange={changePage}
+              count={Math.ceil(tasks.length / tasksPerPage)}
+            />
+            <TasksPerPage
+              tasksPerPage={tasksPerPage}
+              onChangeTasksPerPage={changeTasksPerPage}
+            />
+          </Box>
+        )
+      }
+      {
+        filterTasks === 'completed' && completedTasksSel.length > tasksPerPage && (
+          <Box display="flex" justifyContent="center">
+            <Pagination
+              className={styles.pagination}
+              defaultValue={1}
+              page={currentPage}
+              onChange={changePage}
+              count={Math.ceil(completedTasksSel.length / tasksPerPage)}
+            />
+            <TasksPerPage
+              tasksPerPage={tasksPerPage}
+              onChangeTasksPerPage={changeTasksPerPage}
+            />
+          </Box>
+        )
+      }
+      {
+        filterTasks === 'notCompleted' && notCompletedTasksSel.length > tasksPerPage && (
+          <Box display="flex" justifyContent="center">
+            <Pagination
+              className={styles.pagination}
+              defaultValue={1}
+              page={currentPage}
+              onChange={changePage}
+              count={Math.ceil(notCompletedTasksSel.length / tasksPerPage)}
+            />
+            <TasksPerPage
+              onChangeTasksPerPage={changeTasksPerPage}
+              tasksPerPage={tasksPerPage}
+            />
+          </Box>
+        )
+      }
     </>
   );
 }
 
-export default CategoryPage;
+export { CategoryPage };

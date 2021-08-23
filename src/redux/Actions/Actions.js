@@ -7,6 +7,7 @@ export const ActionTypes = {
   SET_REMOVE_TASK: 'SET_REMOVE_TASK',
   SET_POST_TASK: 'SET_POST_TASK',
   SET_EDITING_TASK: 'SET_EDITING_TASK',
+  SET_SEARCH: 'SET_SEARCH',
 };
 
 export const taskActions = {
@@ -21,6 +22,8 @@ export const taskActions = {
   setRemoveTask: (task) => ({ type: ActionTypes.SET_REMOVE_TASK, payload: task }),
 
   setNewTextTask: (task) => ({ type: ActionTypes.SET_EDITING_TASK, payload: task }),
+
+  setSearch: (value) => ({ type: ActionTypes.SET_SEARCH, payload: value }),
 
 };
 

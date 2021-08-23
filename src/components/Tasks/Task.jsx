@@ -1,21 +1,21 @@
 import React, { useState } from 'react';
 import {
-  Box, Button, TextField, Typography,
+  TextField,
+  Paper,
   ListItem,
   makeStyles,
 } from '@material-ui/core';
-import DeleteIcon from '@material-ui/icons/Delete';
-import EditIcon from '@material-ui/icons/Edit';
-import DoneIcon from '@material-ui/icons/Done';
 import { useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
 import { MiddlewareActions } from '../../redux/Actions/Actions';
+import { ButtonsListItem } from '../Buttons/ButtonsListItem';
 
 const useStyles = makeStyles({
   listItem: {
     display: 'flex',
     justifyContent: 'space-between',
     marginBottom: '40px',
+    padding: 0,
   },
 });
 
@@ -23,12 +23,11 @@ const Task = ({
   text, onRemove, onComplete, completed, id,
 }) => {
   const styles = useStyles();
+  const dispatch = useDispatch();
 
   const [editTask, setEditTask] = useState(false);
 
   const [inputEditTask, setInputEditTask] = useState(text);
-
-  const dispatch = useDispatch();
 
   const handleChange = ({ target }) => setInputEditTask(target.value);
 
@@ -45,33 +44,24 @@ const Task = ({
     setEditTask(false);
   };
 
+  const postOrEdit = editTask ? () => postEditTask({ id, newText: inputEditTask }) : onComplete;
+
+  const TextOrInput = () => (editTask
+    ? <TextField value={inputEditTask} onChange={handleChange} fullWidth className="input__edit" />
+    : (
+      <Paper className={completed ? 'completed' : undefined}>
+        {text}
+      </Paper>
+    ));
   return (
-
     <ListItem className={styles.listItem}>
-      {
-          editTask
-            ? <TextField value={inputEditTask} onChange={handleChange} fullWidth className="input__edit" />
-            : (
-              <Typography data-testid="title-task" variant="h5" className={completed ? 'completed' : null}>
-                {text}
-              </Typography>
-            )
-      }
-      <Box display="flex">
-        <Button onClick={editTask
-          ? () => postEditTask({ id, newText: inputEditTask }) : onComplete}
-        >
-          <DoneIcon cursor="pointer" className="icon__task" />
-        </Button>
-        <Button onClick={onEditTask}>
-          <EditIcon cursor="pointer" className="icon__task" />
-        </Button>
-        <Button onClick={onRemove}>
-          <DeleteIcon cursor="pointer" />
-        </Button>
-      </Box>
+      <TextOrInput />
+      <ButtonsListItem
+        postOrEdit={postOrEdit}
+        onEditTask={onEditTask}
+        onRemove={onRemove}
+      />
     </ListItem>
-
   );
 };
 
@@ -81,7 +71,6 @@ Task.propTypes = {
   onComplete: PropTypes.func.isRequired,
   completed: PropTypes.bool.isRequired,
   id: PropTypes.number.isRequired,
-
 };
 
-export default Task;
+export { Task };

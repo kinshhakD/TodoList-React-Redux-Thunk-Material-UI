@@ -3,10 +3,14 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import { MiddlewareActions } from '../../redux/Actions/Actions';
-import Task from './Task';
 import { TasksContext } from '../../Context';
-import CategoryPage from '../Pagination/CategoryPage';
-import { completedTasksSelector, notCompletedTasksSelector, tasksSelector } from '../../Selectors/todosSelectors';
+import { CategoryPage } from '../Pagination/CategoryPage';
+import {
+  completedTasksSelector, notCompletedTasksSelector,
+  tasksSelector, searchValueSelector,
+} from '../../Selectors/todosSelectors';
+import SearchTasks from './SearchTasks';
+import CategoryTasks from './CategoryTasks';
 
 const useStyles = makeStyles({
   list: {
@@ -16,7 +20,6 @@ const useStyles = makeStyles({
 
 const Tasks = ({ filterTasks }) => {
   const styles = useStyles();
-
   const dispatch = useDispatch();
 
   const [pagination, setPagination] = useState({
@@ -32,19 +35,15 @@ const Tasks = ({ filterTasks }) => {
 
   const tasks = useSelector(tasksSelector);
 
-  // const completedList = useSelector((store) => store.tasks.completedTasks);
-
-  // const notCompletedList = useSelector((store) => store.tasks.notCompletedTasks);
-
-  const tasksSel = useSelector(tasksSelector);
-
   const completedTasksSel = useSelector(completedTasksSelector);
 
   const notCompletedTasksSel = useSelector(notCompletedTasksSelector);
 
+  const searchValue = useSelector(searchValueSelector);
+
   const paginationList = (list = []) => list.slice(firstTaskIndex, lastTaskIndex);
 
-  const paginationAllTasks = paginationList(tasksSel);
+  const paginationAllTasks = paginationList(tasks);
 
   const paginationCompletedTasks = paginationList(completedTasksSel);
 
@@ -66,62 +65,30 @@ const Tasks = ({ filterTasks }) => {
       notCompletedTasksSel,
       filterTasks,
       pagination,
+      paginationAllTasks,
+      paginationCompletedTasks,
+      paginationNotCompletedTasks,
       setPagination,
+      removeTask,
+      completedTask,
     }}
     >
       <Box>
         <List className={styles.list}>
           {
-        filterTasks === 'allTasks'
-        && tasks.length > 0
-          ? paginationAllTasks.map((task) => (
-            <Task
-              text={task.text}
-              key={task.id}
-              onRemove={() => removeTask(task)}
-              onComplete={() => completedTask(task)}
-              completed={task.completed}
-              id={task.id}
-            />
-          ))
-          : filterTasks === 'completed'
-          && tasks.length > 0
-            ? paginationCompletedTasks.map((task) => (
-              <Task
-                text={task.text}
-                key={task.id}
-                onRemove={() => removeTask(task)}
-                onComplete={() => completedTask(task)}
-                completed={task.completed}
-                id={task.id}
-              />
-            ))
-            : filterTasks === 'notCompleted'
-            && tasks.length > 0
-              ? paginationNotCompletedTasks.map((task) => (
-                <Task
-                  text={task.text}
-                  key={task.id}
-                  onRemove={() => removeTask(task)}
-                  onComplete={() => completedTask(task)}
-                  completed={task.completed}
-                  id={task.id}
-                />
-              )) : null
-      }
+            searchValue.length > 0 ? <SearchTasks /> : <CategoryTasks />
+          }
         </List>
-        <CategoryPage />
+        {
+        !searchValue && <CategoryPage />
+        }
       </Box>
     </TasksContext.Provider>
   );
 };
 
-Tasks.defaultProps = {
-  filterTasks: 'allTasks',
-};
-
 Tasks.propTypes = {
-  filterTasks: PropTypes.string,
+  filterTasks: PropTypes.string.isRequired,
 };
 
-export default Tasks;
+export { Tasks };

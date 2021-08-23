@@ -2,7 +2,7 @@ import { Box, Button } from '@material-ui/core';
 import React from 'react';
 import PropTypes from 'prop-types';
 
-const CategoryTasks = ({
+const CategoryButtons = ({
   filterTasks, onFilterAll, onFilterCompleted, onFilterNotCompleted,
 }) => (
 
@@ -22,16 +22,12 @@ const CategoryTasks = ({
   </Box>
 );
 
-CategoryTasks.defaultProps = {
-  filterTasks: 'allTasks',
-};
-
-CategoryTasks.propTypes = {
-  filterTasks: PropTypes.string,
+CategoryButtons.propTypes = {
+  filterTasks: PropTypes.string.isRequired,
   onFilterAll: PropTypes.func.isRequired,
   onFilterCompleted: PropTypes.func.isRequired,
   onFilterNotCompleted: PropTypes.func.isRequired,
 
 };
 
-export default CategoryTasks;
+export { CategoryButtons };

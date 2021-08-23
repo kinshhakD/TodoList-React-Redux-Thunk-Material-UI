@@ -4,9 +4,9 @@ import {
 } from '@material-ui/core';
 import './App.css';
 import { useDispatch } from 'react-redux';
-import Tasks from './components/Tasks/Tasks';
-import FormTask from './components/FormTask/FormTask';
-import CategoryTasks from './components/CategoryLists/CategoryTasks';
+import { Tasks } from './components/Tasks/Tasks';
+import { FormTask } from './components/FormTask/FormTask';
+import { CategoryButtons } from './components/Buttons/CategoryButtons';
 import { MiddlewareActions } from './redux/Actions/Actions';
 
 const useStyles = makeStyles({
@@ -19,7 +19,6 @@ const useStyles = makeStyles({
 
 function App() {
   const styles = useStyles();
-
   const dispatch = useDispatch();
 
   const [filterTasks, setFilterTasks] = useState('allTasks');
@@ -32,7 +31,7 @@ function App() {
 
   useEffect(() => {
     dispatch(MiddlewareActions.fetchTasks());
-  }, [filterTasks]);
+  }, []);
 
   return (
     <div className="App">
@@ -41,7 +40,7 @@ function App() {
           Todo-App
         </Typography>
         <FormTask />
-        <CategoryTasks
+        <CategoryButtons
           filterTasks={filterTasks}
           onFilterAll={onFilterAll}
           onFilterCompleted={onFilterCompleted}

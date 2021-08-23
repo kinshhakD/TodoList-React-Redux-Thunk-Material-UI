@@ -3,6 +3,7 @@ import { ActionTypes } from '../Actions/Actions';
 const initialState = {
   tasks: [],
   loading: false,
+  search: '',
 };
 
 export const tasksReducer = (state = initialState, action) => {
@@ -50,6 +51,10 @@ export const tasksReducer = (state = initialState, action) => {
       return {
         ...state,
         tasks: state.tasks.filter((task) => task.id !== action.payload.id),
+      };
+    case ActionTypes.SET_SEARCH:
+      return {
+        ...state, search: action.payload,
       };
     default:
       return state;
